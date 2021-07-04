@@ -1774,6 +1774,38 @@ def show_topic_curation(q):
     return render_template('topic_curation.html', q=q)
 
 
+@main.route('/substance/' + q_pattern)
+def show_substance(q):
+    """Return html render page for specific chemical substance.
+
+    Parameters
+    ----------
+    q : str
+        Wikidata item identifier.
+
+    Returns
+    -------
+    html : str
+        Rendered HTML.
+
+    """
+    entities = wb_get_entities([q])
+    return render_template('chemical.html', q=q)
+
+
+@main.route('/substance/')
+def show_substance_index():
+    """Return rendered HTML index page for chemical substance.
+
+    Returns
+    -------
+    html : str
+        Rendered HTML index page for chemical.
+
+    """
+    return render_template('chemical-index.html')
+
+
 @main.route('/chemical/' + q_pattern)
 def show_chemical(q):
     """Return html render page for specific chemical.
