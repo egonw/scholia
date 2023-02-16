@@ -54,9 +54,12 @@ from random import randrange
 
 import requests
 
-from simplejson import JSONDecodeError
+from simplejson import JSONDecodeError, loads
 
 from six import u
+
+from os.path import join, abspath
+from os import getcwd
 
 SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
 
@@ -1075,34 +1078,17 @@ def q_to_class(q):
         classes = [item['class']['value'][31:]
                    for item in data['results']['bindings']]
 
+    class_ = None
+
+    matching_data = loads(open(join(abspath(getcwd()), "scholia/matching_data.json"), "rb").read())
+    for aspect in matching_data:
+        if set(classes).intersection(set(matching_data[aspect]['P31'].keys())):
+            class_ = aspect # should it stop early instead?
+
     # Hard-coded matching match
-    if ('Q5' in classes):  # human
-        class_ = 'author'
-    elif ('Q30612' in classes):  # clinical trial
-        class_ = 'clinical_trial'
-    elif set(classes).intersection([
-            'Q277759',  # book series
-            'Q2217301',  # serial (publication series)
-            'Q27785883',  # conference proceedings series
-    ]):
-        class_ = 'series'
-    elif set(classes).intersection([
-            'Q41298',  # magazine
-            'Q737498',  # academic journal
-            'Q5633421',  # scientific journal
-            'Q1143604',  # proceedings
-    ]):
-        class_ = 'venue'
-    elif ('Q157031' in classes or  # foundation
-          'Q10498148' in classes):  # research council
-        class_ = 'sponsor'
-    elif ('Q2085381' in classes or  # publisher
-          'Q479716' in classes):  # university publisher
-        class_ = 'publisher'
-    elif set(classes).intersection([
-            'Q8054',  # protein
-    ]):
-        class_ = 'protein'
+    if (class_ is not None) :
+        # we already found a match
+        class_ = class_
     elif set(classes).intersection([
             'Q170584',  # project
             'Q1298668',  # research project

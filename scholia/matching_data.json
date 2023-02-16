@@ -1,0 +1,24 @@
+{
+  "author": { "P31": { "Q5": "author" } },
+  "clinical_trial": { "P31": { "Q30612": "clinical trial" } },
+  "series": { "P31": {
+    "Q277759":   "book series",
+    "Q2217301":  "serial (publication series)",
+    "Q27785883": "conference proceedings series" }
+  },
+  "venue": { "P31": { 
+    "Q41298":   "magazine",
+    "Q737498":  "academic journal",
+    "Q5633421": "scientific journal",
+    "Q1143604": "proceedings" }
+  },
+  "sponsor": { "P31": { 
+    "Q157031":   "foundation",
+    "Q10498148": "research council" }
+  },
+  "publisher": { "P31": { 
+    "Q2085381": "publisher",
+    "Q479716":  "university publisher" }
+  },
+  "protein": { "P31": { "Q8054": "protein" } }
+}
