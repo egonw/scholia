@@ -61,7 +61,8 @@ from simplejson import JSONDecodeError
 
 from six import u
 
-SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
+#SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
+SPARQL_ENDPOINT = "https://qlever.cs.uni-freiburg.de/api/wikidata"
 
 USER_AGENT = 'Scholia'
 
@@ -831,8 +832,10 @@ def orcid_to_qs(orcid):
         orcid=escape_string(orcid))
 
     url = SPARQL_ENDPOINT
+    print("URL" + url)
     params = {'query': query, 'format': 'json'}
     response = requests.get(url, params=params, headers=HEADERS)
+    print(response)
     data = response.json()
 
     return [item['author']['value'][31:]

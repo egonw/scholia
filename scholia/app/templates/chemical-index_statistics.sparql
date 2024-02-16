@@ -1,3 +1,5 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
 SELECT
   (xsd:integer(?count_) AS ?count)
   (CONCAT("Total chemicals with ", ?description_) AS ?description)

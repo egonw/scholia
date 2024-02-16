@@ -1,3 +1,9 @@
+function getWikidataQSEndpoint() {
+  // return "https://query.wikidata.org/sparql";
+  return "https://qlever.cs.uni-freiburg.de/api/wikidata";
+}
+
+
 // https://stackoverflow.com/questions/6020714
 function escapeHTML(html) {
     if (typeof html !== "undefined") {
@@ -209,7 +215,7 @@ function addReloadButton(element, callback) {
 }
 
 function sparqlToResponse(sparql, doneCallback) {
-    var endpointUrl = "https://query.wikidata.org/bigdata/namespace/wdq/sparql";
+    var endpointUrl = getWikidataQSEndpoint();
     var settings = {
         headers: { Accept: "application/sparql-results+json" },
         data: { query: sparql },
@@ -238,7 +244,7 @@ function sparqlToDataTablePost(sparql, element, filename, options = {}) {
     // Options: paging=
     var paging = (typeof options.paging === 'undefined') ? true : options.paging;
     var sDom = (typeof options.sDom === 'undefined') ? 'lfrtip' : options.sDom;
-    var url = "https://query.wikidata.org/sparql";
+    var url = getWikidataQSEndpoint();
 
     $(element).html("<div class='loader'><div></div><div></div><div></div></div>");
 
@@ -290,7 +296,7 @@ function sparqlToDataTable(sparql, element, filename, options = {}) {
     // Options: paging=true
     var paging = (typeof options.paging === 'undefined') ? true : options.paging;
     var sDom = (typeof options.sDom === 'undefined') ? 'lfrtip' : options.sDom;
-    var url = "https://query.wikidata.org/sparql?query=" +
+    var url = getWikidataQSEndpoint() + "?query=" +
         encodeURIComponent(sparql) + '&format=json';
 
     const datatableFooter =
@@ -421,7 +427,7 @@ function sparqlToIframe(sparql, element, filename) {
     $iframe.attr('src', url);
     $iframe.attr('loading', 'lazy');
 
-    const wikidata_sparql = "https://query.wikidata.org/sparql?query=" + encodeURIComponent(sparql);
+    const wikidata_sparql = getWikidataQSEndpoint() + "?query=" + encodeURIComponent(sparql);
     const wikidata_query = "https://query.wikidata.org/#" + encodeURIComponent(sparql);
 
     $.ajax({
