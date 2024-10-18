@@ -16,6 +16,7 @@ for i in sparql_files:
     # Open .ttl file to write
     with open(ttl, 'w') as ttl_file:
         ttl_file.write("""@prefix q: <https://github.com/WDScholia/scholia/scholia/app/templates/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <https://schema.org/> .
@@ -44,6 +45,12 @@ for i in sparql_files:
         # Append sparql content to the .ttl file
         ttl_file.write(sparql_content)
         ttl_file.write("''';\n")
+
+        # Find a title
+        lines = sparql_content.splitlines()
+        for line in lines:
+            if line.startswith("# title:"):
+                ttl_file.write("  dcterms:title \"" + line[8:].strip() + "\" ;\n")
 
         # Add the license
         ttl_file.write("  dcterms:license <https://creativecommons.org/publicdomain/zero/1.0/> .\n")
