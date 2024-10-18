@@ -31,7 +31,7 @@ for i in sparql_files:
         # Check for keywords and write corresponding content
         if "SELECT" in sparql_content.upper():
             ttl_file.write("  sh:SPARQLSelectExecutable;\n")
-            ttl_file.write("  sh:select '''\n")
+            ttl_file.write("  sh:select '''")
         elif "CONSTRUCT" in sparql_content.upper():
             ttl_file.write("  sh:SPARQLConstructExecutable;\n")
             ttl_file.write("  sh:construct '''")
