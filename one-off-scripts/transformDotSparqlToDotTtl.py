@@ -15,6 +15,12 @@ for i in sparql_files:
 
     # Open .ttl file to write
     with open(ttl, 'w') as ttl_file:
+        ttl_file.write("""@prefix q: <https://github.com/WDScholia/scholia/scholia/app/templates/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+""")
         ttl_file.write(f"q:{fn} a sh:SPARQLExecutable,\n")
 
         # Read the content of the .sparql file
@@ -23,16 +29,17 @@ for i in sparql_files:
 
         # Check for keywords and write corresponding content
         if "SELECT" in sparql_content.upper():
-            ttl_file.write("  sh:SPARQLSelectExecutable,\n")
+            ttl_file.write("  sh:SPARQLSelectExecutable;\n")
             ttl_file.write("  sh:select '''\n")
         elif "CONSTRUCT" in sparql_content.upper():
-            ttl_file.write("  sh:SPARQLConstructExecutable,\n")
-            ttl_file.write("  sh:construct '''\n")
+            ttl_file.write("  sh:SPARQLConstructExecutable;\n")
+            ttl_file.write("  sh:construct '''")
         elif "ASK" in sparql_content.upper():
-            ttl_file.write("  sh:SPARQLAskExecutable,\n")
-            ttl_file.write("  sh:ask '''\n")
+            ttl_file.write("  sh:SPARQLAskExecutable ;\n")
+            ttl_file.write("  sh:ask '''")
         else:
-            ttl_file.write("  spex:describe '''\n")
+            ttl_file.write("  spex:SPARQLDescribeExecutable ;\n")
+            ttl_file.write("  spex:describe '''")
 
         # Append sparql content to the .ttl file
         ttl_file.write(sparql_content)
