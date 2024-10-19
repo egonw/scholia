@@ -40,7 +40,7 @@ ORDER BY ASC(?query)
     for row in qres:
         queryID = row.query.replace("https://github.com/WDScholia/scholia/scholia/app/templates/", "")
         # prepare the SPARQL
-        sparqlVal = row.sparql.replace("\\", "\\\\").replace("\n", "\\n").replace("\"", "\\\"")
+        sparqlVal = row.sparql.replace("\\", "\\\\\\\\").replace("\n", "\\n").replace("\"", "\\\"").replace("\t", "\\t")
 
         # output the results for this SPARQL
         json_file.write("    {\n")
