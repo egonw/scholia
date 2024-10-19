@@ -26,9 +26,12 @@ with open("scholia.json", 'w') as json_file:
         g.parse(i)
 
         knows_query = """prefix sh: <http://www.w3.org/ns/shacl#>
-SELECT DISTINCT ?query ?sparql
+prefix dcterms: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?query ?title ?sparql
 WHERE {
     ?query sh:select | sh:ask | sh:construct ?sparql .
+    OPTIONAL { ?query dcterms:title ?title }
 }"""
 
         qres = g.query(knows_query)
@@ -40,7 +43,10 @@ WHERE {
             json_file.write(f"      \"name\": \"{fn}\",\n")
             json_file.write("      \"sparql\": \"\",\n")
             json_file.write(f"      \"url\": \"https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/{fn}.sparql\",\n")
-            json_file.write(f"      \"title\": \"{fn}\",\n")
+            if (row.title):
+                json_file.write(f"      \"title\": \"{row.title}\",\n")
+            else:
+                json_file.write(f"      \"title\": \"{fn}\",\n")
             json_file.write(f"      \"description\": \"{fn}\",\n")
             json_file.write("      \"comment\": \"\",\n")
             json_file.write("    },\n")
