@@ -37,7 +37,14 @@ ORDER BY ASC(?query)
 """
 
     qres = g.query(knows_query)
+    alreadyHadOne = False
     for row in qres:
+        if alreadyHadOne:
+            json_file.write(",\n")
+        else:
+            alreadyHadOne = True
+            json_file.write("")
+
         queryID = row.query.replace("https://github.com/WDScholia/scholia/scholia/app/templates/", "")
         # prepare the SPARQL
         sparqlVal = row.sparql.replace("\\", "\\\\\\\\").replace("\n", "\\n").replace("\"", "\\\"").replace("\t", "\\t")
@@ -56,7 +63,7 @@ ORDER BY ASC(?query)
             json_file.write(f"      \"title\": \"{queryID}\",\n")
         json_file.write(f"      \"description\": \"{queryID}\",\n")
         json_file.write("      \"comment\": \"\"\n")
-        json_file.write("    },\n")
+        json_file.write("    }")
 
-    json_file.write("  ]\n")
+    json_file.write("\n  ]\n")
     json_file.write("}\n")
