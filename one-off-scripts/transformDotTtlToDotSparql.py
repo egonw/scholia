@@ -2,13 +2,13 @@ import os
 import glob
 from rdflib import Graph
 
-# Path to sparql files
-sparql_files_path = '../scholia/app/templates/*ttl'
+# Path to Turtle files
+ttl_files_path = '../scholia/app/templates/*ttl'
 
-# Get the list of .sparql files
-ttl_files = glob.glob(sparql_files_path)
+# Get the list of .ttl files
+ttl_files = glob.glob(ttl_files_path)
 
-# Process each sparql file
+# Process each Turtle file
 for i in ttl_files:
     # Extract the filename (fn) and create .sparql filename
     fn = os.path.basename(i)[0:-4]  # extract name without extension
