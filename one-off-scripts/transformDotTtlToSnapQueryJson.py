@@ -36,12 +36,16 @@ WHERE {
 
         qres = g.query(knows_query)
         for row in qres:
+            # prepare the SPARQL
+            sparqlVal = row.sparql.replace("\\", "\\\\").replace("\n", "\\n").replace("\"", "\\\"")
+
+            # output the results for this SPARQL
             json_file.write("    {\n")
             json_file.write(f"      \"query_id\": \"{fn}--named_queries@scholia.toolforge.org\",\n")
             json_file.write("      \"domain\": \"scholia.toolforge.org\",\n")
             json_file.write("      \"namespace\": \"named_queries\",\n")
             json_file.write(f"      \"name\": \"{fn}\",\n")
-            json_file.write("      \"sparql\": \"\",\n")
+            json_file.write(f"      \"sparql\": \"{sparqlVal}\",\n")
             json_file.write(f"      \"url\": \"https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/{fn}.sparql\",\n")
             if (row.title):
                 json_file.write(f"      \"title\": \"{row.title}\",\n")
