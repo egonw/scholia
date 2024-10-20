@@ -27,11 +27,14 @@ with open("scholia.json", 'w') as json_file:
 
     knows_query = """prefix sh: <http://www.w3.org/ns/shacl#>
 prefix dcterms: <http://purl.org/dc/terms/>
+prefix schema: <https://schema.org/>
 
 SELECT DISTINCT ?query ?title ?sparql
 WHERE {
     ?query sh:select | sh:ask | sh:construct ?sparql .
     OPTIONAL { ?query dcterms:title ?title }
+    OPTIONAL { ?query dcterms:license ?license }
+    OPTIONAL { ?query schema:target ?target }
 }
 ORDER BY ASC(?query)
 """
