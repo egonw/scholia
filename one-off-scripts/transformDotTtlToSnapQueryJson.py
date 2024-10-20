@@ -19,6 +19,7 @@ with open("scholia.json", 'w') as json_file:
 
     # Process each sparql file
     for i in ttl_files:
+        print(i)
         # Extract the filename (fn) and create .sparql filename
         fn = os.path.basename(i)[0:-4]  # extract name without extension
         sparql = i[0:-4] + ".sparql"  # create .sparql filename
@@ -28,13 +29,16 @@ with open("scholia.json", 'w') as json_file:
     knows_query = """prefix sh: <http://www.w3.org/ns/shacl#>
 prefix dcterms: <http://purl.org/dc/terms/>
 prefix schema: <https://schema.org/>
+prefix scholia: <http://scholia.toolforge.org/ns/>
+prefix scholiaAspect: <http://scholia.toolforge.org/ns/aspect/>
 
-SELECT DISTINCT ?query ?title ?sparql
+SELECT DISTINCT ?query ?title ?sparql ?license ?target ?aspect
 WHERE {
     ?query sh:select | sh:ask | sh:construct ?sparql .
     OPTIONAL { ?query dcterms:title ?title }
     OPTIONAL { ?query dcterms:license ?license }
     OPTIONAL { ?query schema:target ?target }
+    OPTIONAL { ?query scholia:aspect ?aspect }
 }
 ORDER BY ASC(?query)
 """
@@ -65,8 +69,19 @@ ORDER BY ASC(?query)
         else:
             json_file.write(f"      \"title\": \"{queryID}\",\n")
         json_file.write(f"      \"description\": \"{queryID}\",\n")
-        json_file.write("      \"comment\": \"\"\n")
-        json_file.write("    }")
+        json_file.write("      \"comment\": \"\"")
+        if row.aspect:
+            print(f"Aspect: {row.aspect} in {queryID}")
+            json_file.write(",\n      \"samples\": {\n")
+            json_file.write(f"        \"snapquery-examples\": [\n")
+            json_file.write("            {\n")
+            json_file.write(f"              \"params\": \"{{{{ q }}}}\",\n")
+            if str(row.aspect) == "http://scholia.toolforge.org/ns/aspect/Author":
+                json_file.write(f"              \"default_params\": \"Q97270\",\n")
+            json_file.write("            }\n")
+            json_file.write(f"        \"]\n")
+            json_file.write("      }")
+        json_file.write("\n    }")
 
     json_file.write("\n  ]\n")
     json_file.write("}\n")
