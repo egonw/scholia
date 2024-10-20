@@ -7,6 +7,14 @@ sparql_files_path = '../scholia/app/templates/*sparql'
 # Get the list of .sparql files
 sparql_files = glob.glob(sparql_files_path)
 
+aspects = {
+    "author": [ "Q97270" ],
+    "chemical": [ "Q2270" ],
+    "publisher": [ "Q73820" ],
+    "venue": [ "Q6294930" ],
+    "work": [ "Q28942417" ]
+}
+
 # Process each sparql file
 for i in sparql_files:
     # Extract the filename (fn) and create .ttl filename
@@ -59,8 +67,11 @@ for i in sparql_files:
             #    ttl_file.write("  scholia:defaultView scholiaView:" + line.split(":")[1] + " ;\n")
 
         # Add aspect info
-        if aspect == "author":
-            ttl_file.write("  scholia:aspect scholiaAspect:Author ;\n")
+        if aspect in aspects.keys():
+            aspectClass = aspect[0].upper() + aspect[1:]
+            ttl_file.write(f"  scholia:aspect scholiaAspect:{aspectClass} ;\n")
+            for example in aspects[aspect]:
+                ttl_file.write(f"  scholia:aspectExample wd:{example} ;\n")
 
         # Add the SPARQL endpoint
         ttl_file.write("  schema:target <https://query.wikidata.org/sparql> ;\n")
