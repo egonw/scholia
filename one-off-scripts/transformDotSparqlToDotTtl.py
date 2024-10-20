@@ -53,7 +53,7 @@ for i in sparql_files:
                 ttl_file.write("  dcterms:title \"" + line[8:].strip() + "\" ;\n")
 
         # Add the license
-        ttl_file.write("  dcterms:license <https://creativecommons.org/publicdomain/zero/1.0/> .\n")
+        ttl_file.write("  dcterms:license <https://www.gnu.org/licenses/gpl-3.0> .\n")
 
     # Output the ttl filename
     print(ttl)
