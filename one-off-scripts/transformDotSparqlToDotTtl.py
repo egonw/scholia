@@ -12,6 +12,7 @@ for i in sparql_files:
     # Extract the filename (fn) and create .ttl filename
     fn = os.path.basename(i)[0:-7]  # extract name without extension
     ttl = i[0:-7] + ".ttl"  # create .ttl filename
+    aspect = fn.split("_")[0]
 
     # Open .ttl file to write
     with open(ttl, 'w') as ttl_file:
@@ -21,6 +22,9 @@ for i in sparql_files:
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <https://schema.org/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix scholia: <http://scholia.toolforge.org/ns/> .
+@prefix scholiaAspect: <http://scholia.toolforge.org/ns/aspect/> .
+@prefix scholiaView: <http://scholia.toolforge.org/ns/view/> .
 """)
         ttl_file.write(f"q:{fn} a sh:SPARQLExecutable,\n")
 
@@ -51,6 +55,12 @@ for i in sparql_files:
         for line in lines:
             if line.startswith("# title:"):
                 ttl_file.write("  dcterms:title \"" + line[8:].strip() + "\" ;\n")
+            if line.startswith("#defaultView:"):
+                ttl_file.write("  scholia:defaultView scholiaView:" + line.split(":")[1] + " ;\n")
+
+        # Add aspect info
+        if aspect == "author":
+            ttl_file.write("  scholia:aspect scholiaAspect:Author ;\n")
 
         # Add the SPARQL endpoint
         ttl_file.write("  schema:target <https://query.wikidata.org/sparql> ;\n")
