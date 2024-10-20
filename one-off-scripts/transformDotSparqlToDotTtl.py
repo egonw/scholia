@@ -52,6 +52,9 @@ for i in sparql_files:
             if line.startswith("# title:"):
                 ttl_file.write("  dcterms:title \"" + line[8:].strip() + "\" ;\n")
 
+        # Add the SPARQL endpoint
+        ttl_file.write("  schema:target <https://query.wikidata.org/sparql> ;\n")
+
         # Add the license
         ttl_file.write("  dcterms:license <https://www.gnu.org/licenses/gpl-3.0> .\n")
 
