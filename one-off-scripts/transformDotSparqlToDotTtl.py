@@ -24,7 +24,7 @@ for i in sparql_files:
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix scholia: <http://scholia.toolforge.org/ns/> .
 @prefix scholiaAspect: <http://scholia.toolforge.org/ns/aspect/> .
-@prefix scholiaView: <http://scholia.toolforge.org/ns/view/> .
+#@prefix scholiaView: <http://scholia.toolforge.org/ns/view/> .
 """)
         ttl_file.write(f"q:{fn} a sh:SPARQLExecutable,\n")
 
@@ -55,8 +55,8 @@ for i in sparql_files:
         for line in lines:
             if line.startswith("# title:"):
                 ttl_file.write("  dcterms:title \"" + line[8:].strip() + "\" ;\n")
-            if line.startswith("#defaultView:"):
-                ttl_file.write("  scholia:defaultView scholiaView:" + line.split(":")[1] + " ;\n")
+            #if line.startswith("#defaultView:"):
+            #    ttl_file.write("  scholia:defaultView scholiaView:" + line.split(":")[1] + " ;\n")
 
         # Add aspect info
         if aspect == "author":
