@@ -1,5 +1,6 @@
 import os
 import glob
+import re
 
 # Path to sparql files
 sparql_files_path = '../scholia/app/templates/*sparql'
@@ -57,6 +58,11 @@ for i in sparql_files:
         # Append sparql content to the .ttl file
         ttl_file.write(sparql_content)
         ttl_file.write("''';\n")
+
+        # find variables
+        variables = re.findall(r'{{\s*[^\s*]\s*}}', sparql_content)
+        for variable in set(variables):
+          ttl_file.write(f"  scholia:variable \"{variable}\" ;\n")
 
         # Find a title
         lines = sparql_content.splitlines()
