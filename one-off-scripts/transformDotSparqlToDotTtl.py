@@ -78,6 +78,7 @@ for i in sparql_files:
             ttl_file.write(f"  scholia:aspect scholiaAspect:{aspectClass} ;\n")
             for example in aspects[aspect]:
                 ttl_file.write(f"  scholia:aspectExample wd:{example} ;\n")
+                ttl_file.write(f"  scholia:variableExample \"{example}\" ;\n")
 
         # Add the SPARQL endpoint
         ttl_file.write("  schema:target <https://query.wikidata.org/sparql> ;\n")
