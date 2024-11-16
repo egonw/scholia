@@ -33,7 +33,9 @@ for i in sparql_files:
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix scholia: <http://scholia.toolforge.org/ns/> .
 @prefix scholiaAspect: <http://scholia.toolforge.org/ns/aspect/> .
+@prefix wd: <http://wikidata.org/entity/> .
 #@prefix scholiaView: <http://scholia.toolforge.org/ns/view/> .
+
 """)
         ttl_file.write(f"q:{fn} a sh:SPARQLExecutable,\n")
 
