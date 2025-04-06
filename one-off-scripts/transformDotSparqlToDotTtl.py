@@ -18,23 +18,32 @@ aspects = {
     "chemical-class": [ "Q46995757" ],
     "chemical-element": [ "Q1098" ],
     "complex": [ "Q90012272" ],
+    "country": [ "Q35" ],
     "dataset": [ "Q4203254" ],
     "disease": [ "Q917357" ],
     "event": [ "Q133457282" ],
     "event-series": [ "Q47501052" ],
     "gene": [ "Q14860818" ],
+    "language": [ "Q9027" ],
+    "license": [ "Q20007257" ],
+    "location": [ "Q1309" ],
     "ontology": [ "Q116446479" ],
     "organization": [ "Q104785223" ],
     "pathway": [ "Q28031254" ],
     "podcast": [ "Q124262264" ],
     "podcast-episode": [ "Q124268563" ],
+    "podcast-language": [ "Q7411" ],
     "podcast-season": [ "Q124266519" ],
+    "printer": [ "Q85200459" ],
     "project": [ "Q27990087" ],
+    "property": [ "P2860" ],
     "protein": [ "Q21109365" ],
     "publisher": [ "Q73820" ],
     "software": [ "Q1635410" ],
+    "sponsor": [ "Q1200258" ],
     "taxon": [ "Q12024" ],
     "topic": [ "Q45340488" ],
+    "use": [ "Q1769726" ],
     "venue": [ "Q6294930" ],
     "wikiproject": [ "Q60687720" ],
     "work": [ "Q28942417" ]
@@ -42,7 +51,8 @@ aspects = {
 
 ignore_aspects = [
     "404-chemical", "ask", "author-use", "authors", "cito", "countries", 
-    "organizations", "series", "topics", "uses", "venues", "works"
+    "lexeme", "organizations", "series", "topics", "uses", "venues",
+    "work-cito-intention", "works"
 ]
 
 # Process each sparql file
@@ -55,7 +65,7 @@ for i in sparql_files:
     
     if (aspect in ignore_aspects) or aspect.endswith("-curation") or aspect.endswith("-index"):
         print(f"Ignoring aspect: {aspect}")
-    elif aspect.endswith("-topic") or aspect.endswith("-use"):
+    elif aspect.endswith("-topic") or aspect.endswith("-use") or aspect.endswith("-statistics"):
         print(f"Ignoring aspect: {aspect}")
     elif not(aspect in aspects.keys()):
         print(f"Unsupported aspect: {aspect}")
