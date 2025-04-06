@@ -11,11 +11,39 @@ sparql_files.sort()
 
 aspects = {
     "author": [ "Q97270" ],
+    "award": [ "Q44585" ],
+    "catalogue": [ "Q51467536" ],
+    "clinical-trial": [ "Q64651365" ],
     "chemical": [ "Q2270" ],
+    "chemical-class": [ "Q46995757" ],
+    "chemical-element": [ "Q1098" ],
+    "complex": [ "Q90012272" ],
+    "dataset": [ "Q4203254" ],
+    "disease": [ "Q917357" ],
+    "event": [ "Q133457282" ],
+    "event-series": [ "Q47501052" ],
+    "gene": [ "Q14860818" ],
+    "ontology": [ "Q116446479" ],
+    "organization": [ "Q104785223" ],
+    "pathway": [ "Q28031254" ],
+    "podcast": [ "Q124262264" ],
+    "podcast-episode": [ "Q124268563" ],
+    "podcast-season": [ "Q124266519" ],
+    "project": [ "Q27990087" ],
+    "protein": [ "Q21109365" ],
     "publisher": [ "Q73820" ],
+    "software": [ "Q1635410" ],
+    "taxon": [ "Q12024" ],
+    "topic": [ "Q45340488" ],
     "venue": [ "Q6294930" ],
+    "wikiproject": [ "Q60687720" ],
     "work": [ "Q28942417" ]
 }
+
+ignore_aspects = [
+    "404-chemical", "ask", "author-use", "authors", "cito", "countries", 
+    "organizations", "series", "topics", "uses", "venues", "works"
+]
 
 # Process each sparql file
 number = 0
@@ -25,7 +53,13 @@ for i in sparql_files:
     fn = os.path.basename(i)[0:-7]  # extract name without extension
     aspect = fn.split("_")[0]
     
-    if aspect in aspects.keys():
+    if (aspect in ignore_aspects) or aspect.endswith("-curation") or aspect.endswith("-index"):
+        print(f"Ignoring aspect: {aspect}")
+    elif aspect.endswith("-topic") or aspect.endswith("-use"):
+        print(f"Ignoring aspect: {aspect}")
+    elif not(aspect in aspects.keys()):
+        print(f"Unsupported aspect: {aspect}")
+    else:
         number = number + 1
         ttl = f"{number:03d}"+ ".ttl"  # create .ttl filename
 
