@@ -55,12 +55,18 @@ ignore_aspects = [
     "work-cito-intention", "works"
 ]
 
+ignore_panels = [
+    "language_recently-published-works"
+]
+
 # Process each sparql file
 number = 0
 for i in sparql_files:
     print(i)
     # Extract the filename (fn) and create .ttl filename
     fn = os.path.basename(i)[0:-7]  # extract name without extension
+    panel = fn
+    print("Panel: " + panel)
     aspect = fn.split("_")[0]
     
     if (aspect in ignore_aspects) or aspect.endswith("-curation") or aspect.endswith("-index"):
@@ -69,6 +75,8 @@ for i in sparql_files:
         print(f"Ignoring aspect: {aspect}")
     elif not(aspect in aspects.keys()):
         print(f"Unsupported aspect: {aspect}")
+    elif panel in ignore_panels:
+        print(f"Unsupported panel: {panel}")
     else:
         number = number + 1
         ttl = f"{number:03d}"+ ".ttl"  # create .ttl filename
