@@ -165,7 +165,7 @@ for i in sparql_files:
                     ttl_file.write("  rdfs:comment \"" + aspectClass + " aspect: " + line[8:].strip() + "\"@en ;\n")
                     found_title = True
                 if line.startswith("#defaultView:"):
-                    ttl_file.write("  scholia:defaultView scholiaView:" + line.split(":")[1] + " ;\n")
+                    ttl_file.write("  scholia:defaultView scholiaView:" + line.split(":")[1].split("{")[0] + " ;\n")
 
             if not(found_title):
                 ttl_file.write("  rdfs:comment \"" + aspectClass + " aspect: [no title]\"@en ;\n")
