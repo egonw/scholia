@@ -176,7 +176,8 @@ for i in sparql_files:
                     ttl_file.write("  scholia:defaultView scholiaView:" + line.split(":")[1].split("{")[0] + " ;\n")
 
             if not(found_title):
-                ttl_file.write("  rdfs:comment \"" + aspectClass + " aspect: [no title]\"@en ;\n")
+                title = " ".join(fn.split("_")[1:]).replace("-", " ")
+                ttl_file.write("  rdfs:comment \"" + aspectClass + " aspect: " + title + "\"@en ;\n")
 
             # Add the SPARQL endpoint
             ttl_file.write("  schema:target <https://query.wikidata.org/sparql> ;\n")
