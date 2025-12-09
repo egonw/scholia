@@ -10,10 +10,6 @@ SELECT (?_child AS ?child) ?childLabel ?rgb (?_parent AS ?parent) ?parentLabel W
     ?_child wdt:P171 ?_parent .
     BIND ("FFFFFF" AS ?rgb)
   } UNION {
-              # ensure that the child taxon is a predecessor of the target taxon
-              target: wdt:P171* ?child .
-            } GROUP BY ?parent ?child
-          }
     # Child taxa
     {SELECT ?_child ?_parent WHERE {
       BIND (target: AS ?_parent) .
